@@ -21,13 +21,15 @@ var htmlString1 =
 </article>`
 
 function getTagContent(htmlString, tag) {
+    if(htmlString.match(new RegExp(`</${tag}>`, 'g')) == null){
+      return []
+    }
     let totalCount = htmlString.match(new RegExp(`</${tag}>`, 'g')).length
 
     let result_ = []
     let htmlString_ = htmlString
     let done = 0
     for(let i =0;i< totalCount;i++){
-      console.log(htmlString_, i)
       let checkI = htmlString_.indexOf(`</${tag}>`) - 1
       let temp = checkI
       while(htmlString_[temp] != ">"){
@@ -36,21 +38,13 @@ function getTagContent(htmlString, tag) {
 
             result_.push(htmlString_.substring(temp+1, checkI+1).trim())
             done += 1;
-            console.log(checkI+5)
-            htmlString_ = htmlString.slice(checkI+5)
-            
-            
+            htmlString_ = htmlString_.slice(checkI+5).trim()            
             break;
 
           }  
       }
     }
-
-
-    console.log(result_)
-  
-  
-
+    return result_; 
 }
 
-console.log(getTagContent(htmlString1, "p"))
+console.log(getTagContent(htmlString1, "h3"))
